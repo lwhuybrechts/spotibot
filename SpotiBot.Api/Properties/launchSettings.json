@@ -2,7 +2,7 @@
   "profiles": {
     "SpotiBot.Api": {
       "commandName": "Project",
-      "commandLineArgs": "--port 7093",
+      "commandLineArgs": "--port 8443",
       "launchBrowser": false
     }
   }

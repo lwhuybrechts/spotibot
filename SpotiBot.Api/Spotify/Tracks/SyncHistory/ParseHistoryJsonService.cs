@@ -54,7 +54,8 @@ namespace SpotiBot.Api.Spotify.Tracks.SyncHistory
             // A message can have multiple text strings.
             var texts = ParseTexts(message.SelectToken("text"));
 
-            var fromId = message.SelectToken("from_id").Value<long>();
+            var from = message.SelectToken("from_id").Value<string>();
+            var fromId = Int64.Parse(from.StartsWith("user") ? from.Substring(4) : from);
             var createdAtLocal = message.SelectToken("date").Value<DateTime>();
             var createdAt = DateTime.SpecifyKind(createdAtLocal, dateTimeKind);
 

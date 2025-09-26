@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Sentry;
 using SpotiBot.Api.Bot.Chats;
 using SpotiBot.Api.Bot.HandleUpdate;
@@ -52,7 +53,7 @@ namespace SpotiBot
             {
                 try
                 {
-                    var update = JsonConvert.DeserializeObject<Telegram.Bot.Types.Update>(requestBody);
+                    var update = JsonConvert.DeserializeObject<Telegram.Bot.Types.Update>(requestBody, new UnixDateTimeConverter());
                     var updateDto = await _updateDtoService.Build(update);
 
                     // Only handle updates on certain conditions.
