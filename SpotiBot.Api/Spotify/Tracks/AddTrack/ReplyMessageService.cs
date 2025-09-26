@@ -54,12 +54,9 @@ namespace SpotiBot.Api.Spotify.Tracks.AddTrack
             if (addedByUser != null)
                 userText = $" by {addedByUser.FirstName}";
 
-            var dateText = string.Empty;
-            if (!string.IsNullOrEmpty(updateDto.ParsedUser?.LanguageCode))
-            {
-                var cultureIfo = new CultureInfo(updateDto.ParsedUser.LanguageCode);
-                dateText = $" on {track.CreatedAt.ToString("d", cultureIfo)}";
-            }
+            // TODO: use the languageCode from the sent message, or make it configurable in the chat?
+            // updateDto.ParsedUser?.LanguageCode
+            var dateText = $" on {track.CreatedAt.ToString("d", new CultureInfo("nl-NL"))}";
 
             if (track.State == TrackState.RemovedByDownvotes)
                 return $"{trackInfo}This track was previously posted{userText}, but it was downvoted and removed from the {_spotifyLinkHelper.GetMarkdownLinkToPlaylist(updateDto.Chat.PlaylistId, "playlist")}.";
