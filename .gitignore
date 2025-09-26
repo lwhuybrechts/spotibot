@@ -4,7 +4,7 @@
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
 # Custom
-local.settings.json
+SpotiBot.Api/local.settings.json
 chathistory.json
 
 # User-specific files
