@@ -39,7 +39,7 @@ namespace SpotiBot.Api.Spotify.Api
             if (playlist == null)
                 throw new PlaylistNullException(playlistId);
 
-            var allTracks = await spotifyClient.PaginateAll(playlist.Tracks);
+            var allTracks = await spotifyClient.PaginateAll(playlist.Items);
 
             // Tracks can be podcasts or fulltracks.
             var fullTracks = allTracks.Select(x => x.Track as FullTrack).ToList();
@@ -55,7 +55,7 @@ namespace SpotiBot.Api.Spotify.Api
         public async Task AddTrackToPlaylist(ISpotifyClient spotifyClient, Track track)
         {
             // Add the track to the playlist.
-            await spotifyClient.Playlists.AddItems(track.PlaylistId, new PlaylistAddItemsRequest(new List<string>
+            await spotifyClient.Playlists.AddPlaylistItems(track.PlaylistId, new PlaylistAddItemsRequest(new List<string>
             {
                 $"{_trackInlineBaseUri}{track.Id}"
             }));
@@ -63,11 +63,11 @@ namespace SpotiBot.Api.Spotify.Api
 
         public async Task RemoveTrackFromPlaylist(ISpotifyClient spotifyClient, string trackId, string playlistId)
         {
-            var removeRequest = new PlaylistRemoveItemsRequest
+            var removeRequest = new PlaylistRemoveItemsRequestV2
             {
-                Tracks = new List<PlaylistRemoveItemsRequest.Item>
+                Items = new List<PlaylistRemoveItemsRequestV2.Item>
                 {
-                    new PlaylistRemoveItemsRequest.Item
+                    new PlaylistRemoveItemsRequestV2.Item
                     {
                         Uri = $"{_trackInlineBaseUri}{trackId}"
                     }
@@ -75,7 +75,7 @@ namespace SpotiBot.Api.Spotify.Api
             };
 
             // Remove the track from the playlist.
-            await spotifyClient.Playlists.RemoveItems(playlistId, removeRequest);
+            await spotifyClient.Playlists.RemovePlaylistItems(playlistId, removeRequest);
         }
 
         public async Task<bool> AddToQueue(ISpotifyClient spotifyClient, Track track)
