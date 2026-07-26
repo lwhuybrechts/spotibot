@@ -1,6 +1,4 @@
 ﻿using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using SpotiBot.Api.Bot;
 using SpotiBot.Api.Bot.Votes;
 using SpotiBot.Api.Library.Options;
@@ -112,7 +110,7 @@ namespace SpotiBot.Api.IntegrationTests.Library
         /// <param name="update">The update to write.</param>
         private static async Task WriteUpdateToStream(Stream stream, Telegram.Bot.Types.Update update)
         {
-            var jsonString = JsonConvert.SerializeObject(update, new UnixDateTimeConverter());
+            var jsonString = System.Text.Json.JsonSerializer.Serialize(update, Telegram.Bot.JsonBotAPI.Options);
 
             await stream.WriteAsync(Encoding.UTF8.GetBytes(jsonString));
 
